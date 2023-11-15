@@ -5,12 +5,12 @@ import {
   FormNumber,
   FormBtn,
 } from 'components/ContactForm/ContactForm.styled';
-import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations'
 import PropTypes from 'prop-types';
 
   const ContactForm = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const nameIsInContacts = newName =>
@@ -22,15 +22,15 @@ import PropTypes from 'prop-types';
     const name = form.name.value;
     const number = form.number.value;
 
-    const isItInContacts = nameIsInContacts(name);
+    const isInContacts = nameIsInContacts(name);
 
-    if (isItInContacts) {
+    if (isInContacts) {
       alert(`"${name} exist in contact list"`);
       form.reset();
       return;
     }
 
-    dispatch(addContact(name, number));
+    dispatch(addContact({ name, number }));
     form.reset();
   };
 
